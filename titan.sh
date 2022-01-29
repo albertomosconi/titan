@@ -59,7 +59,6 @@ setup() {
     sudo -u "$username" mkdir -p "/home/$username/.cache/zsh/"
 
     [ -f /etc/sudoers.pacnew ] && cp /etc/sudoers.pacnew /etc/sudoers # Just in case
-
     newperms "%wheel ALL=(ALL) NOPASSWD: ALL"
 
     # Make pacman colorful, concurrent downloads and Pacman eye-candy.
