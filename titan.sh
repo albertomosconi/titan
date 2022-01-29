@@ -122,7 +122,7 @@ install_make_git() {
     program_name = "$(basename "$1" .git)"
     dir = "$repodir/$program_name"
     printf "$dir" ;
-    sudo -u "$username" git clone --depth 1 "$1" "$dir" ;
+    sudo -u $username git clone --depth 1 "$1" "$dir" ;
     cd "$dir" || exit 1
     make ;
     make install ;
@@ -149,7 +149,7 @@ post_install() {
 %wheel ALL=(ALL) NOPASSWD: /usr/bin/shutdown,/usr/bin/reboot,/usr/bin/systemctl suspend,/usr/bin/mount,/usr/bin/umount,/usr/bin/pacman -Syu,/usr/bin/pacman -Syyu,/usr/bin/systemctl restart NetworkManager,/usr/bin/pacman -Syyu --noconfirm,/usr/bin/loadkeys,/usr/bin/pacman -Syyuw --noconfirm"
 
     cd "/home/$username"
-    sudo -u $username yadm clone $dotfilesrepo
+    sudo -u $username yadm clone $dotfilesrepo >/dev/null 2>&1
 
     printf "done :)\n";
 }
