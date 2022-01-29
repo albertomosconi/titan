@@ -16,6 +16,7 @@
 A,brave-bin,"the browser."
 ,noto-fonts,
 ,noto-fonts-emoji,
+,ttf-liberation,
 ,pipewire,"the audio system."
 ,pipewire-pulse,"gives pipewire compatibility with PulseAudio programs."
 ,pulsemixer,
