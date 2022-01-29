@@ -14,6 +14,7 @@
 ,mpv,"a video player."
 ,man-db,
 A,brave-bin,"the browser."
+,noto-fonts,
 ,noto-fonts-emoji,
 ,pipewire,"the audio system."
 ,pipewire-pulse,"gives pipewire compatibility with PulseAudio programs."
