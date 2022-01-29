@@ -1,6 +1,7 @@
 #TAG,NAME,DESC
 ,xorg-server,"the graphical server."
 ,xorg-xinit,"starts the graphical server."
+,xorg-xrandr,
 ,xorg-xprop,"a tool for detecting window properties."
 ,xorg-xwininfo,"allows querying information about windows."
 ,xorg-xbacklight,"controls the screen brightness."
