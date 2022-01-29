@@ -40,6 +40,10 @@ confirm() {
 }
 
 setup() {
+    # refresh keyring
+    printf "refreshing keyring\n";
+    pacman --noconfirm -S archlinux-keyring >/dev/null 2>&1
+
     # install necessary packages
     printf "installing base packages\n"
     for x in curl ca-certificates base-devel git ntp zsh reflector dash ; do
