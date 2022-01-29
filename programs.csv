@@ -42,4 +42,4 @@ A,simple-mtpfs,
 ,dmenu,"a dynamic menu for X."
 A,fm6000-bin,"displays funny system information."
 G,https://github.com/albertomosconi/st.git,"a custom build of st."
-,alacritty,"a terminal emulator."
+,python-pywal,"generates and changes the colorscheme."
