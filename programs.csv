@@ -40,3 +40,4 @@ A,simple-mtpfs,
 ,dmenu,a dynamic menu for X.
 ,alacritty,a terminal emulator.
 A,fm6000-bin,
+G,https://github.com/albertomosconi/st.git,a custom build of st.

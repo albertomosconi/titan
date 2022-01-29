@@ -117,6 +117,17 @@ install_aur() {
     sudo -u "$username" yay -S --noconfirm "$1" >/dev/null 2>&1
 }
 
+install_make_git() {
+    printf "GIT -> \`$1\`: $2\n";
+    program_name = "$(basename "$1" .git)"
+    dir = "$repodir/$program_name"
+    sudo -u "$username" git clone --depth 1 "$1" "$dir" >/dev/null 2>&1
+    cd "$dir" || exit 1
+    make >/dev/null 2>&1
+    make install >/dev/null 2>&1
+    cd /tmp || return 1;
+}
+
 install_loop() {
     # fetch the file with the list of programs
     ([ -f "$progsfile" ] && cp "$progsfile" /tmp/programs.csv) || curl -Ls "$progsfile" | sed '/^#/d' > /tmp/programs.csv
@@ -124,6 +135,7 @@ install_loop() {
     while IFS=, read -r tag program desc; do
         case $tag in
             "A") install_aur "$program" "$desc" ;;
+            "G") install_make_git "$program" "$desc" ;;
             *) install_pac "$program" "$desc" ;;
         esac
     done < /tmp/programs.csv;
