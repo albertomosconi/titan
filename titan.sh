@@ -121,10 +121,11 @@ install_make_git() {
     printf "GIT -> \`$1\`: $2\n";
     program_name = "$(basename "$1" .git)"
     dir = "$repodir/$program_name"
-    sudo -u "$username" git clone --depth 1 "$1" "$dir" >/dev/null 2>&1
+    printf "$dir" ;
+    sudo -u "$username" git clone --depth 1 "$1" "$dir" ;
     cd "$dir" || exit 1
-    make >/dev/null 2>&1
-    make install >/dev/null 2>&1
+    make ;
+    make install ;
     cd /tmp || return 1;
 }
 
