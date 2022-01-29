@@ -42,7 +42,7 @@ confirm() {
 setup() {
     # install necessary packages
     printf "installing base packages\n"
-    for x in curl ca-certificates base-devel git ntp zsh reflector ; do
+    for x in curl ca-certificates base-devel git ntp zsh reflector dash ; do
         install_package "$x"
     done
 
@@ -62,36 +62,53 @@ setup() {
     newperms "%wheel ALL=(ALL) NOPASSWD: ALL"
 
     # Make pacman colorful, concurrent downloads and Pacman eye-candy.
+    printf "configuring pacman\n";
     grep -q "ILoveCandy" /etc/pacman.conf || sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
     sed -i "s/^#ParallelDownloads = 8$/ParallelDownloads = 5/;s/^#Color$/Color/" /etc/pacman.conf
 
     # configure and enable reflector
-    sudo systemctl enable reflector.timer
-    sudo echo "--save /etc/pacman.d/mirrolist
+    printf "configuring reflector\n";
+    systemctl enable reflector.timer
+    echo "--save /etc/pacman.d/mirrolist
 --protocol https
 --country Italy
 --age 6
 --sort rate" > /etc/xdg/reflector/reflector.conf
-    sudo systemctl start reflector.timer
+    systemctl start reflector.timer
+
+    # configure dash
+    printf "configuring dash\n";
+    ln -sfT dash /usr/bin/sh
+    echo "[Trigger]
+Type = Package
+Operation = Install
+Operation = Upgrade
+Target = bash
+[Action]
+Description = Re-pointing /bin/sh symlink to dash...
+When = PostTransaction
+Exec = /usr/bin/ln -sfT dash /usr/bin/sh
+Depends = dash" > /usr/share/libalpm/hooks/bash-update.hook
 }
 
 install_yay() {
     # Use all cores for compilation.
+    printf "installing yay\n";
     sed -i "s/-j2/-j$(nproc)/;s/^#MAKEFLAGS/MAKEFLAGS/" /etc/makepkg.conf
     
     sudo -u $username mkdir -p "$repodir/yay-bin"
     sudo -u $username git clone --depth 1 "https://aur.archlinux.org/yay-bin.git" "$repodir/yay-bin"
     cd "$repodir/yay-bin"
-    sudo -u $username -D "$repodir/yay-bin" makepkg --noconfirm -si
+    sudo -u $username -D "$repodir/yay-bin" makepkg --noconfirm -si >/dev/null 2>&1 || return 1
 }
 
 install_pac() {
-    printf "installing \`$1\`: $2\n";
+    printf "PAC installing \`$1\`: $2\n";
     install_package "$1"
 }
 
 install_aur() {
-    printf "installing \`$1\` from the AUR: $2\n";
+    printf "AUR installing \`$1\` from the AUR: $2\n";
     echo "$aurinstalled" | grep -q "^$1$" && return 1
     sudo -u "$username" yay -S --noconfirm "$1" >/dev/null 2>&1
 }
@@ -113,6 +130,8 @@ post_install() {
     # serveral important commands, `shutdown`, `reboot`, updating, etc. without a password.
     newperms "%wheel ALL=(ALL) ALL #TITAN
 %wheel ALL=(ALL) NOPASSWD: /usr/bin/shutdown,/usr/bin/reboot,/usr/bin/systemctl suspend,/usr/bin/mount,/usr/bin/umount,/usr/bin/pacman -Syu,/usr/bin/pacman -Syyu,/usr/bin/systemctl restart NetworkManager,/usr/bin/pacman -Syyu --noconfirm,/usr/bin/loadkeys,/usr/bin/pacman -Syyuw --noconfirm"
+
+    printf "done :)\n";
 }
 
 
@@ -127,5 +146,3 @@ install_yay
 install_loop
 
 post_install
-
-clear
