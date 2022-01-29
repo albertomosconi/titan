@@ -154,7 +154,7 @@ post_install() {
     sudo -u $username yadm update-index --assume-unchanged "/home/$username/README.md"
 
     # start / restart pulseaudio
-    pkill -15 -x 'pulseaudio'; sudo -u "$username" pulseaudio --start
+    # pkill -15 -x 'pulseaudio'; sudo -u "$username" pulseaudio --start
 
     printf "done :)\n";
 }
