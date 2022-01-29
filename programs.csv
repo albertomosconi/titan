@@ -35,4 +35,8 @@ A,simple-mtpfs,
 ,slock,
 ,moreutils,
 ,yadm,yet another dotfiles manager.
-,i3,a tiling window manager.
+,i3-gaps,a tiling window manager.
+,i3status,the statusbar for i3.
+,dmenu,a dynamic menu for X.
+,alacritty,a terminal emulator.
+A,fm6000-bin,
