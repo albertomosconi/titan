@@ -78,7 +78,7 @@ setup() {
 --country Italy
 --age 6
 --sort rate" > /etc/xdg/reflector/reflector.conf
-    systemctl start reflector.timer
+    systemctl start reflector.timer >/dev/null 2>&1
 
     # configure dash
     printf "configuring dash\n";
@@ -107,12 +107,12 @@ install_yay() {
 }
 
 install_pac() {
-    printf "PAC installing \`$1\`: $2\n";
+    printf "PAC -> \`$1\`: $2\n";
     install_package "$1"
 }
 
 install_aur() {
-    printf "AUR installing \`$1\` from the AUR: $2\n";
+    printf "AUR -> \`$1\`: $2\n";
     echo "$aurinstalled" | grep -q "^$1$" && return 1
     sudo -u "$username" yay -S --noconfirm "$1" >/dev/null 2>&1
 }
