@@ -147,8 +147,14 @@ post_install() {
     newperms "%wheel ALL=(ALL) ALL #TITAN
 %wheel ALL=(ALL) NOPASSWD: /usr/bin/shutdown,/usr/bin/reboot,/usr/bin/systemctl suspend,/usr/bin/mount,/usr/bin/umount,/usr/bin/pacman -Syu,/usr/bin/pacman -Syyu,/usr/bin/systemctl restart NetworkManager,/usr/bin/pacman -Syyu --noconfirm,/usr/bin/loadkeys,/usr/bin/pacman -Syyuw --noconfirm"
 
+    # setup dotfiles with yadm
     cd "/home/$username"
     sudo -u $username yadm clone $dotfilesrepo >/dev/null 2>&1
+    rm -f "/home/$username/README.md"
+    sudo -u $username yadm update-index --assume-unchanged "/home/$username/README.md"
+
+    # start / restart pulseaudio
+    pkill -15 -x 'pulseaudio'; sudo -u "$name" pulseaudio --start
 
     printf "done :)\n";
 }
