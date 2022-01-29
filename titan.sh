@@ -1,6 +1,6 @@
 #!/bin/sh
 
-[ -z "$progsfile" ] && progsfile="https://raw.githubusercontent.com/LukeSmithxyz/LARBS/master/progs.csv"
+[ -z "$progsfile" ] && progsfile="https://raw.githubusercontent.com/albertomosconi/titan/main/programs.csv"
 [ -z "$aurhelper" ] && aurhelper="yay"
 
 install_package() {
@@ -48,7 +48,7 @@ setup() {
     useradd -m -g wheel -s /bin/zsh "$username"
     repodir="/home/$username/.local/src"
     mkdir -p "$repodir"
-    chown -R alberto:wheel "$(dirname "$repodir")"
+    chown -R $username:wheel "$(dirname "$repodir")"
     echo "$username:$pass1" | chpasswd
     unset pass1 pass2;
 
@@ -59,6 +59,10 @@ setup() {
     # Make pacman colorful, concurrent downloads and Pacman eye-candy.
     grep -q "ILoveCandy" /etc/pacman.conf || sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
     sed -i "s/^#ParallelDownloads = 8$/ParallelDownloads = 5/;s/^#Color$/Color/" /etc/pacman.conf
+
+    # Make zsh the default shell for the user.
+    chsh -s /bin/zsh "$username" >/dev/null 2>&1
+    sudo -u "$username" mkdir -p "/home/$username/.cache/zsh/"
 }
 
 install_yay() {
@@ -71,9 +75,27 @@ install_yay() {
     sudo -u $username -D "$repodir/yay-bin" makepkg --noconfirm -si
 }
 
+install_pac() {
+    printf "installing \`$1\`: $2"
+    install_package "$1"
+}
+
+install_aur() {
+    printf "installing \`$1\` from the AUR: $2"
+    echo "$aurinstalled" | grep -q "^$1$" && return 1
+    sudo -u "$username" yay -S --noconfirm "$1" >/dev/null 2>&1
+}
+
 install_loop() {
     # fetch the file with the list of programs
-    ([ -f "$progsfile" ] && cp "$progsfile" progs.csv) || curl -Ls "$progsfile" | sed '/^#/d' > progs.csv
+    ([ -f "$progsfile" ] && cp "$progsfile" /tmp/programs.csv) || curl -Ls "$progsfile" | sed '/^#/d' > /tmp/programs.csv
+    aurinstalled = $(pacman -Qqm)
+    while IFS=, read -r tag program desc; do
+        case $tag in
+            "A") install_aur "$program" ;;
+            *) install_pac "$program" ;;
+        esac
+    done < /tmp/programs.csv
 }
 
 
@@ -86,3 +108,4 @@ setup
 install_yay
 
 install_loop
+
