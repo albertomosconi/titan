@@ -13,7 +13,7 @@
 ,neovim,"a tidier vim with some useful features."
 ,mpv,"a video player."
 ,man-db,
-A,brave-bin,"the browser."
+A,librewolf-bin,"the browser."
 ,noto-fonts,
 ,noto-fonts-emoji,
 ,ttf-liberation,
@@ -43,3 +43,5 @@ A,simple-mtpfs,
 A,fm6000-bin,"displays funny system information."
 G,https://github.com/albertomosconi/st.git,"a custom build of st."
 ,python-pywal,"generates and changes the colorscheme."
+,keepassxc,"a password manager."
+,thunderbird,"an email client."
