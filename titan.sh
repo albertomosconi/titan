@@ -4,7 +4,7 @@
 [ -z "$aurhelper" ] && aurhelper="yay"
 
 install_package() {
-    pacman --noconfirm --needed -S "$1";
+    pacman --noconfirm --needed -S "$1" >/dev/null 2>&1 ;
 }
 
 newperms() { # Set special sudoers settings for install (or after).
@@ -41,7 +41,7 @@ confirm() {
 
 setup() {
     # install necessary packages
-    for x in curl ca-certificates base-devel git ntp zsh ; do
+    for x in curl ca-certificates base-devel git ntp zsh reflector ; do
         install_package "$x"
     done
 
@@ -63,6 +63,15 @@ setup() {
     # Make zsh the default shell for the user.
     chsh -s /bin/zsh "$username" >/dev/null 2>&1
     sudo -u "$username" mkdir -p "/home/$username/.cache/zsh/"
+
+    # configure and enable reflector
+    printf "--save /etc/pacman.d/mirrolist
+--protocol https
+--country Italy
+--age 6
+--sort rate" > /etc/xdg/reflector/reflector.conf
+    sudo systemctl enable reflector.timer
+    sudo systemctl start reflector.timer
 }
 
 install_yay() {
@@ -98,6 +107,13 @@ install_loop() {
     done < /tmp/programs.csv
 }
 
+post_install() {
+    # This line, overwriting the `newperms` command above will allow the user to run
+    # serveral important commands, `shutdown`, `reboot`, updating, etc. without a password.
+    newperms "%wheel ALL=(ALL) ALL #TITAN
+%wheel ALL=(ALL) NOPASSWD: /usr/bin/shutdown,/usr/bin/reboot,/usr/bin/systemctl suspend,/usr/bin/mount,/usr/bin/umount,/usr/bin/pacman -Syu,/usr/bin/pacman -Syyu,/usr/bin/systemctl restart NetworkManager,/usr/bin/pacman -Syyu --noconfirm,/usr/bin/loadkeys,/usr/bin/pacman -Syyuw --noconfirm"
+}
+
 
 get_username_and_pass
 
@@ -109,3 +125,6 @@ install_yay
 
 install_loop
 
+post_install
+
+clear
