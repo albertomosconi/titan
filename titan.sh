@@ -8,6 +8,11 @@ install_package() {
     pacman --noconfirm --needed -S "$1";
 }
 
+newperms() { # Set special sudoers settings for install (or after).
+	sed -i "/#TITAN/d" /etc/sudoers
+	echo "$* #TITAN" >> /etc/sudoers ;
+}
+
 install_loop() {
     # fetch the file with the list of programs
     ([ -f "$progsfile" ] && cp "$progsfile" progs.csv) || curl -Ls "$progsfile" | sed '/^#/d' > progs.csv
@@ -32,9 +37,9 @@ newperms "%wheel ALL=(ALL) NOPASSWD: ALL"
 grep -q "ILoveCandy" /etc/pacman.conf || sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
 sed -i "s/^#ParallelDownloads = 8$/ParallelDownloads = 5/;s/^#Color$/Color/" /etc/pacman.conf
 
-mkdir -p "$repodir/yay-bin"
-git clone --depth 1 "https://aur.archlinux.org/yay-bin.git" "$repodir/yay-bin"
-
-sudo -D "$repodi/yay-bin" makepkg --noconfirm -si
+sudo -u alberto mkdir -p "$repodir/yay-bin"
+sudo -u git clone --depth 1 "https://aur.archlinux.org/yay-bin.git" "$repodir/yay-bin"
+cd "$repodir/yay-git"
+sudo -u alberto -D "$repodir/yay-bin" makepkg --noconfirm -si
 
 install_loop
