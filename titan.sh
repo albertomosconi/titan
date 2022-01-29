@@ -150,11 +150,11 @@ post_install() {
     # setup dotfiles with yadm
     cd "/home/$username"
     sudo -u $username yadm clone $dotfilesrepo >/dev/null 2>&1
-    rm -f "/home/$username/README.md"
+    rm "/home/$username/README.md"
     sudo -u $username yadm update-index --assume-unchanged "/home/$username/README.md"
 
     # start / restart pulseaudio
-    pkill -15 -x 'pulseaudio'; sudo -u "$name" pulseaudio --start
+    pkill -15 -x 'pulseaudio'; sudo -u "$username" pulseaudio --start
 
     printf "done :)\n";
 }
