@@ -89,7 +89,7 @@ install_aur() {
 install_loop() {
     # fetch the file with the list of programs
     ([ -f "$progsfile" ] && cp "$progsfile" /tmp/programs.csv) || curl -Ls "$progsfile" | sed '/^#/d' > /tmp/programs.csv
-    aurinstalled = $(pacman -Qqm)
+    aurinstalled=$(pacman -Qqm)
     while IFS=, read -r tag program desc; do
         case $tag in
             "A") install_aur "$program" ;;
