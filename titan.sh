@@ -8,8 +8,8 @@ install_package() {
 }
 
 newperms() { # Set special sudoers settings for install (or after).
-	sed -i "/#TITAN/d" /etc/sudoers.d/$username
-	sudo echo "$* #TITAN" >> /etc/sudoers.d/$username ;
+	[ -f "/etc/sudoers.d/$username" ] && sed -i "/#TITAN/d" "/etc/sudoers.d/$username"
+	sudo echo "$* #TITAN" >> "/etc/sudoers.d/$username" ;
 }
 
 get_username_and_pass() {
