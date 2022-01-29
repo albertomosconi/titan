@@ -1,31 +1,31 @@
 #TAG,NAME,DESC
-,xorg-server,the graphical server.
-,xorg-xinit,starts the graphical server.
-,xorg-xprop,a tool for detecting window properties.
-,xorg-xwininfo,allows querying information about windows.
-,xorg-xbacklight,controls the screen brightness.
-,xcompmgr,for transparency and removing screen-tearing.
-,libnotify,allows desktop notifications.
-,dunst,a suckless notification system.
-,xwallpaper,sets the wallpaper.
-,gnome-keyring,the system keyring.
-,sxiv,a minimalist image viewer.
-,neovim,a tidier vim with some useful features.
-,mpv,a video player.
+,xorg-server,"the graphical server."
+,xorg-xinit,"starts the graphical server."
+,xorg-xprop,"a tool for detecting window properties."
+,xorg-xwininfo,"allows querying information about windows."
+,xorg-xbacklight,"controls the screen brightness."
+,xcompmgr,"for transparency and removing screen-tearing."
+,libnotify,"allows desktop notifications."
+,dunst,"a suckless notification system."
+,xwallpaper,"sets the wallpaper."
+,gnome-keyring,"the system keyring."
+,sxiv,"a minimalist image viewer."
+,neovim,"a tidier vim with some useful features."
+,mpv,"a video player."
 ,man-db,
-A,brave-bin,the browser.
+A,brave-bin,"the browser."
 ,noto-fonts-emoji,
-,pipewire,the audio system.
-,pipewire-pulse,gives pipewire compatibility with PulseAudio programs.
+,pipewire,"the audio system."
+,pipewire-pulse,"gives pipewire compatibility with PulseAudio programs."
 ,pulsemixer,
 ,pamixer,
 ,maim,
 ,unclutter,
-,unrar,to extract rar files.
-,unzip,to extract zip files.
+,unrar,"to extract rar files."
+,unzip,"to extract zip files."
 ,xdotool,
 ,xorg-xdpyinfo,
-,zathura,the pdf viewer.
+,zathura,"the pdf viewer."
 ,poppler,
 ,mediainfo,
 ,atool,
@@ -34,10 +34,10 @@ A,brave-bin,the browser.
 A,simple-mtpfs,
 ,slock,
 ,moreutils,
-,yadm,yet another dotfiles manager.
-,i3-gaps,a tiling window manager.
-,i3status,the statusbar for i3.
-,dmenu,a dynamic menu for X.
-,alacritty,a terminal emulator.
-A,fm6000-bin,
-G,https://github.com/albertomosconi/st.git,a custom build of st.
+,yadm,"yet another dotfiles manager."
+,i3-gaps,"a tiling window manager."
+,i3status,"the statusbar for i3."
+,dmenu,"a dynamic menu for X."
+,alacritty,"a terminal emulator."
+A,fm6000-bin,"displays funny system information."
+G,https://github.com/albertomosconi/st.git,"a custom build of st."
