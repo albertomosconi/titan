@@ -41,16 +41,22 @@ confirm() {
 
 setup() {
     # install necessary packages
+    printf "installing base packages\n"
     for x in curl ca-certificates base-devel git ntp zsh reflector ; do
         install_package "$x"
     done
 
+    printf "creating user\n"
     useradd -m -g wheel -s /bin/zsh "$username"
     repodir="/home/$username/.local/src"
     mkdir -p "$repodir"
     chown -R $username:wheel "$(dirname "$repodir")"
     echo "$username:$pass1" | chpasswd
     unset pass1 pass2;
+
+    # Make zsh the default shell for the user.
+    chsh -s /bin/zsh "$username" >/dev/null 2>&1
+    sudo -u "$username" mkdir -p "/home/$username/.cache/zsh/"
 
     [ -f /etc/sudoers.pacnew ] && cp /etc/sudoers.pacnew /etc/sudoers # Just in case
 
@@ -60,12 +66,8 @@ setup() {
     grep -q "ILoveCandy" /etc/pacman.conf || sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
     sed -i "s/^#ParallelDownloads = 8$/ParallelDownloads = 5/;s/^#Color$/Color/" /etc/pacman.conf
 
-    # Make zsh the default shell for the user.
-    chsh -s /bin/zsh "$username" >/dev/null 2>&1
-    sudo -u "$username" mkdir -p "/home/$username/.cache/zsh/"
-
     # configure and enable reflector
-    printf "--save /etc/pacman.d/mirrolist
+    sudo echo "--save /etc/pacman.d/mirrolist
 --protocol https
 --country Italy
 --age 6
@@ -85,12 +87,12 @@ install_yay() {
 }
 
 install_pac() {
-    printf "installing \`$1\`: $2"
+    printf "installing \`$1\`: $2\n"
     install_package "$1"
 }
 
 install_aur() {
-    printf "installing \`$1\` from the AUR: $2"
+    printf "installing \`$1\` from the AUR: $2\n"
     echo "$aurinstalled" | grep -q "^$1$" && return 1
     sudo -u "$username" yay -S --noconfirm "$1" >/dev/null 2>&1
 }
@@ -101,8 +103,8 @@ install_loop() {
     aurinstalled=$(pacman -Qqm)
     while IFS=, read -r tag program desc; do
         case $tag in
-            "A") install_aur "$program" ;;
-            *) install_pac "$program" ;;
+            "A") install_aur "$program" "$desc" ;;
+            *) install_pac "$program" "$desc" ;;
         esac
     done < /tmp/programs.csv
 }
