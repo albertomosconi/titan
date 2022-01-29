@@ -67,12 +67,12 @@ setup() {
     sed -i "s/^#ParallelDownloads = 8$/ParallelDownloads = 5/;s/^#Color$/Color/" /etc/pacman.conf
 
     # configure and enable reflector
+    sudo systemctl enable reflector.timer
     sudo echo "--save /etc/pacman.d/mirrolist
 --protocol https
 --country Italy
 --age 6
 --sort rate" > /etc/xdg/reflector/reflector.conf
-    sudo systemctl enable reflector.timer
     sudo systemctl start reflector.timer
 }
 
@@ -87,12 +87,12 @@ install_yay() {
 }
 
 install_pac() {
-    printf "installing \`$1\`: $2\n"
+    printf "installing \`$1\`: $2\n";
     install_package "$1"
 }
 
 install_aur() {
-    printf "installing \`$1\` from the AUR: $2\n"
+    printf "installing \`$1\` from the AUR: $2\n";
     echo "$aurinstalled" | grep -q "^$1$" && return 1
     sudo -u "$username" yay -S --noconfirm "$1" >/dev/null 2>&1
 }
@@ -106,7 +106,7 @@ install_loop() {
             "A") install_aur "$program" "$desc" ;;
             *) install_pac "$program" "$desc" ;;
         esac
-    done < /tmp/programs.csv
+    done < /tmp/programs.csv;
 }
 
 post_install() {
