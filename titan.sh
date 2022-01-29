@@ -72,7 +72,7 @@ setup() {
 
     # configure and enable reflector
     printf "configuring reflector\n";
-    systemctl enable reflector.timer
+    systemctl enable reflector.timer >/dev/null 2>&1
     echo "--save /etc/pacman.d/mirrolist
 --protocol https
 --country Italy
@@ -135,6 +135,7 @@ post_install() {
     newperms "%wheel ALL=(ALL) ALL #TITAN
 %wheel ALL=(ALL) NOPASSWD: /usr/bin/shutdown,/usr/bin/reboot,/usr/bin/systemctl suspend,/usr/bin/mount,/usr/bin/umount,/usr/bin/pacman -Syu,/usr/bin/pacman -Syyu,/usr/bin/systemctl restart NetworkManager,/usr/bin/pacman -Syyu --noconfirm,/usr/bin/loadkeys,/usr/bin/pacman -Syyuw --noconfirm"
 
+    cd "/home/$username"
     yadm clone $dotfilesrepo
 
     printf "done :)\n";
