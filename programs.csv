@@ -1,31 +1,31 @@
 #TAG,NAME,DESC
-,xorg-server,graphical server.
+,xorg-server,the graphical server.
 ,xorg-xinit,starts the graphical server.
-,xorg-xprop,is a tool for detecting window properties.
+,xorg-xprop,a tool for detecting window properties.
 ,xorg-xwininfo,allows querying information about windows.
-,xorg-xbacklight,
-,xcompmgr,is for transparency and removing screen-tearing.
+,xorg-xbacklight,controls the screen brightness.
+,xcompmgr,for transparency and removing screen-tearing.
 ,libnotify,allows desktop notifications.
-,dunst,is a suckless notification system.
+,dunst,a suckless notification system.
 ,xwallpaper,sets the wallpaper.
-,gnome-keyring,serves as the system keyring.
-,sxiv,is a minimalist image viewer.
+,gnome-keyring,the system keyring.
+,sxiv,a minimalist image viewer.
 ,neovim,a tidier vim with some useful features.
-,mpv,
+,mpv,a video player.
 ,man-db,
-A,brave-bin,
+A,brave-bin,the browser.
 ,noto-fonts-emoji,
-,pipewire,is the audio system.
+,pipewire,the audio system.
 ,pipewire-pulse,gives pipewire compatibility with PulseAudio programs.
 ,pulsemixer,
 ,pamixer,
 ,maim,
 ,unclutter,
-,unrar,
-,unzip,
+,unrar,to extract rar files.
+,unzip,to extract zip files.
 ,xdotool,
 ,xorg-xdpyinfo,
-,zathura,
+,zathura,the pdf viewer.
 ,poppler,
 ,mediainfo,
 ,atool,
@@ -34,3 +34,5 @@ A,brave-bin,
 A,simple-mtpfs,
 ,slock,
 ,moreutils,
+,yadm,yet another dotfiles manager.
+,i3,a tiling window manager.

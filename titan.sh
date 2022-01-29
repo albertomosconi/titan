@@ -1,7 +1,7 @@
 #!/bin/sh
 
 [ -z "$progsfile" ] && progsfile="https://raw.githubusercontent.com/albertomosconi/titan/main/programs.csv"
-[ -z "$aurhelper" ] && aurhelper="yay"
+[ -z "$dotfilesrepo" ] && dotfilesrepo="https://github.com/albertomosconi/dots"
 
 install_package() {
     pacman --noconfirm --needed -S "$1" >/dev/null 2>&1 ;
@@ -101,7 +101,7 @@ install_yay() {
     sed -i "s/-j2/-j$(nproc)/;s/^#MAKEFLAGS/MAKEFLAGS/" /etc/makepkg.conf
     
     sudo -u $username mkdir -p "$repodir/yay-bin"
-    sudo -u $username git clone --depth 1 "https://aur.archlinux.org/yay-bin.git" "$repodir/yay-bin"
+    sudo -u $username git clone --depth 1 "https://aur.archlinux.org/yay-bin.git" "$repodir/yay-bin" >/dev/null 2>&1
     cd "$repodir/yay-bin"
     sudo -u $username -D "$repodir/yay-bin" makepkg --noconfirm -si >/dev/null 2>&1 || return 1
 }
@@ -134,6 +134,8 @@ post_install() {
     # serveral important commands, `shutdown`, `reboot`, updating, etc. without a password.
     newperms "%wheel ALL=(ALL) ALL #TITAN
 %wheel ALL=(ALL) NOPASSWD: /usr/bin/shutdown,/usr/bin/reboot,/usr/bin/systemctl suspend,/usr/bin/mount,/usr/bin/umount,/usr/bin/pacman -Syu,/usr/bin/pacman -Syyu,/usr/bin/systemctl restart NetworkManager,/usr/bin/pacman -Syyu --noconfirm,/usr/bin/loadkeys,/usr/bin/pacman -Syyuw --noconfirm"
+
+    yadm clone $dotfilesrepo
 
     printf "done :)\n";
 }
