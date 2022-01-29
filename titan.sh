@@ -38,8 +38,8 @@ grep -q "ILoveCandy" /etc/pacman.conf || sed -i "/#VerbosePkgLists/a ILoveCandy"
 sed -i "s/^#ParallelDownloads = 8$/ParallelDownloads = 5/;s/^#Color$/Color/" /etc/pacman.conf
 
 sudo -u alberto mkdir -p "$repodir/yay-bin"
-sudo -u git clone --depth 1 "https://aur.archlinux.org/yay-bin.git" "$repodir/yay-bin"
-cd "$repodir/yay-git"
+sudo -u alberto git clone --depth 1 "https://aur.archlinux.org/yay-bin.git" "$repodir/yay-bin"
+cd "$repodir/yay-bin"
 sudo -u alberto -D "$repodir/yay-bin" makepkg --noconfirm -si
 
 install_loop
