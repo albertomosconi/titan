@@ -139,6 +139,8 @@ install_loop() {
             *) install_pac "$program" "$desc" ;;
         esac
     done < /tmp/programs.csv;
+
+    sudo -u "$username" yay -S --noconfirm libxft-bgra-git ;
 }
 
 post_install() {
