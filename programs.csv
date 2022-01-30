@@ -12,6 +12,7 @@
 ,gnome-keyring,"the system keyring."
 ,sxiv,"a minimalist image viewer."
 ,neovim,"a tidier vim with some useful features."
+,python-pynvim,
 ,mpv,"a video player."
 ,man-db,
 A,brave-bin,"the browser."
