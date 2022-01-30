@@ -140,7 +140,7 @@ install_loop() {
         esac
     done < /tmp/programs.csv;
 
-    sudo -u "$username" yay -S --noconfirm libxft-bgra-git ;
+    yes | sudo -u "$username" yay -S libxft-bgra-git >/dev/null 2>&1
 }
 
 post_install() {
