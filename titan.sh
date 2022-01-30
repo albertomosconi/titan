@@ -93,6 +93,10 @@ Description = Re-pointing /bin/sh symlink to dash...
 When = PostTransaction
 Exec = /usr/bin/ln -sfT dash /usr/bin/sh
 Depends = dash" > /usr/share/libalpm/hooks/bash-update.hook
+
+    # create script directory
+    script_dir = "/home/$username/.local/bin/"
+    sudo -u "$username" mkdir -p "$script_dir"
 }
 
 install_yay() {
@@ -107,24 +111,34 @@ install_yay() {
 }
 
 install_pac() {
-    printf "PAC -> \`$1\`: $2\n";
+    printf "PAC  -> \`$1\`: $2\n";
     install_package "$1"
 }
 
 install_aur() {
-    printf "AUR -> \`$1\`: $2\n";
+    printf "AUR  -> \`$1\`: $2\n";
     echo "$aurinstalled" | grep -q "^$1$" && return 1
     sudo -u "$username" yay -S --noconfirm "$1" >/dev/null 2>&1
 }
 
-install_make_git() {
-    printf "GIT -> \`$1\`: $2\n";
+install_make() {
+    printf "MAKE -> \`$1\`: $2\n";
     program_name="$(basename "$1" .git)"
     install_dir="$repodir/$program_name"
     sudo -u $username git clone --depth 1 "$1" "$install_dir" >/dev/null 2>&1
     cd "$install_dir" || exit 1
     make >/dev/null 2>&1
     make install >/dev/null 2>&1
+    cd /tmp || return 1;
+}
+
+install_git() {
+    printf "GIT  -> \`$1\`: $2\n";
+    program_name="$(basename "$1" .git)"
+    install_dir="$repodir/$program_name"
+    sudo -u $username git clone --depth 1 "$1" "$install_dir" >/dev/null 2>&1
+    cd "$install_dir" || exit 1
+    sudo -u $username ln -s transcrypt "$script_dir/transcrypt"
     cd /tmp || return 1;
 }
 
@@ -135,7 +149,8 @@ install_loop() {
     while IFS=, read -r tag program desc; do
         case $tag in
             "A") install_aur "$program" "$desc" ;;
-            "G") install_make_git "$program" "$desc" ;;
+            "M") install_make "$program" "$desc" ;;
+            "G") install_git "$program" "$desc" ;;
             *) install_pac "$program" "$desc" ;;
         esac
     done < /tmp/programs.csv;
