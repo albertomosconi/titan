@@ -137,9 +137,7 @@ install_git() {
     program_name="$(basename "$1" .git)"
     install_dir="$repodir/$program_name"
     sudo -u $username git clone --depth 1 "$1" "$install_dir" >/dev/null 2>&1
-    cd "$install_dir" || exit 1
-    sudo -u $username ln -s transcrypt "$script_dir/transcrypt"
-    cd /tmp || return 1;
+    sudo -u $username ln -s "$install_dir" "$script_dir/$program_name" ;
 }
 
 install_loop() {
