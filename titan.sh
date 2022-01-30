@@ -95,7 +95,7 @@ Exec = /usr/bin/ln -sfT dash /usr/bin/sh
 Depends = dash" > /usr/share/libalpm/hooks/bash-update.hook
 
     # create script directory
-    script_dir = "/home/$username/.local/bin/"
+    script_dir="/home/$username/.local/bin/"
     sudo -u "$username" mkdir -p "$script_dir"
 }
 
